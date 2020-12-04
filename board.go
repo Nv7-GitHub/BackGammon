@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 // Triangle stores the amount of white and black pieces
 type Triangle struct {
@@ -31,9 +34,14 @@ func NewBoard() Board {
 
 // Print prints the board
 func (c *Board) Print() {
+	chars := "| "
 	for i := 0; i < 12; i++ {
-		fmt.Print("--")
+		chars += strconv.Itoa(i+1) + " "
 	}
-	fmt.Println()
-	fmt.Println("a")
+	chars += "|"
+	for range chars {
+		fmt.Print("-")
+	}
+	fmt.Println("\n" + chars)
+	fmt.Println("| a")
 }
