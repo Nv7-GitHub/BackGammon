@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // Triangle stores the amount of white and black pieces
 type Triangle struct {
 	White int
@@ -25,4 +27,13 @@ func NewBoard() Board {
 	b.Tris[18] = Triangle{White: 5}
 	b.Tris[23] = Triangle{Black: 3}
 	return b
+}
+
+// Print prints the board
+func (c *Board) Print() {
+	for i := 0; i < 12; i++ {
+		fmt.Print("--")
+	}
+	fmt.Println()
+	fmt.Println("a")
 }
