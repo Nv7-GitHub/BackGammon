@@ -1,0 +1,8 @@
+top: black
+bottom: white
+
+white: goes from 1-24
+black: goes from 24-1
+
+true boolean: white turn
+false boolean: black turn
