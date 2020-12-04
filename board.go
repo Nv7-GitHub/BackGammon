@@ -69,9 +69,9 @@ func (b *Board) Print() {
 	}
 	fmt.Println()
 
-	for i := 0; i < 5; i++ {
+	for i := 5; i > 0; i-- {
 		fmt.Print("|")
-		for j := 12; j < 24; j++ {
+		for j := 23; j > 11; j-- {
 			if i < b.Tris[j].White {
 				fmt.Print("w  ")
 			} else if i < (b.Tris[j].Black + b.Tris[j].White) {
@@ -84,7 +84,7 @@ func (b *Board) Print() {
 	}
 
 	fmt.Print("|")
-	for i := 11; i < 23; i++ {
+	for i := 23; i > 11; i-- {
 		char := strconv.Itoa(i + 1)
 		if len(char) == 1 {
 			char += " "
