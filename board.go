@@ -46,6 +46,6 @@ func (c *Board) Print() {
 		}
 		fmt.Print(char + " ")
 	}
-	fmt.Println()
+	fmt.Println("|")
 	fmt.Println("|a")
 }
