@@ -34,14 +34,17 @@ func NewBoard() Board {
 
 // Print prints the board
 func (c *Board) Print() {
-	chars := "| "
 	for i := 0; i < 12; i++ {
-		chars += strconv.Itoa(i+1) + " "
+		fmt.Print("---")
 	}
-	chars += "|"
-	for range chars {
-		fmt.Print("-")
+	fmt.Println()
+	for i := 0; i < 12; i++ {
+		char := strconv.Itoa(i + 1)
+		if len(char) == 1 {
+			char += " "
+		}
+		fmt.Print(char + " ")
 	}
-	fmt.Println("\n" + chars)
-	fmt.Println("| a")
+	fmt.Println()
+	fmt.Println("a")
 }
