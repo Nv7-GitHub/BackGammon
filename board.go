@@ -11,6 +11,7 @@ type Board struct {
 	Tris     [24]Triangle
 	Bar      Triangle
 	Finished Triangle
+	Turn     bool
 }
 
 // NewBoard creates a board
