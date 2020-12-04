@@ -33,7 +33,8 @@ func NewBoard() Board {
 }
 
 // Print prints the board
-func (c *Board) Print() {
+func (b *Board) Print() {
+	// Print top
 	fmt.Print("--")
 	for i := 0; i < 12; i++ {
 		fmt.Print("---")
@@ -47,5 +48,54 @@ func (c *Board) Print() {
 		fmt.Print(char + " ")
 	}
 	fmt.Println("|")
-	fmt.Println("|a")
+
+	for i := 0; i < 5; i++ {
+		fmt.Print("|")
+		for j := 0; j < 12; j++ {
+			if i < b.Tris[j].White {
+				fmt.Print("w  ")
+			} else if i < (b.Tris[j].Black + b.Tris[j].White) {
+				fmt.Print("b  ")
+			} else {
+				fmt.Print("   ")
+			}
+		}
+		fmt.Println("|")
+	}
+
+	fmt.Print("--")
+	for i := 0; i < 12; i++ {
+		fmt.Print("---")
+	}
+	fmt.Println()
+
+	for i := 0; i < 5; i++ {
+		fmt.Print("|")
+		for j := 12; j < 24; j++ {
+			if i < b.Tris[j].White {
+				fmt.Print("w  ")
+			} else if i < (b.Tris[j].Black + b.Tris[j].White) {
+				fmt.Print("b  ")
+			} else {
+				fmt.Print("   ")
+			}
+		}
+		fmt.Println("|")
+	}
+
+	fmt.Print("|")
+	for i := 11; i < 23; i++ {
+		char := strconv.Itoa(i + 1)
+		if len(char) == 1 {
+			char += " "
+		}
+		fmt.Print(char + " ")
+	}
+	fmt.Println("|")
+
+	fmt.Print("--")
+	for i := 0; i < 12; i++ {
+		fmt.Print("---")
+	}
+	fmt.Println()
 }
