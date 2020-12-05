@@ -1,5 +1,9 @@
 package main
 
+import (
+	"fmt"
+)
+
 // Triangle stores the amount of white and black pieces
 type Triangle struct {
 	White int
@@ -28,21 +32,48 @@ func NewBoard() Board {
 	return b
 }
 
-// IsValid checks if a move is valid
-func (b *Board) IsValid(d int, s int, e int) bool { // s = start, e = end
-	if (GetPieces(b.Turn, b.Bar) != 0) && (s >= 0) { // If trying to move from the bar, put a neg num as input
-		return false // Has pieces in the Bar but trying to move pieces not in the bar
+// GameTurn has a single turn of the game, returns whether the game is over or not
+func (b *Board) GameTurn() bool {
+	if b.Turn {
+		fmt.Println("White's Turn")
+	} else {
+		fmt.Println("Black's Turn")
 	}
-	absChange := (e - s) * Dir(b.Turn)
-	if absChange != d { // Handles Dice AND going counterclockwise/clockwise
-		return false
+
+	// Rolling
+	rolls := Roll()
+	fmt.Printf("You rolled a %d and a %d\n", rolls[0], rolls[1])
+	if rolls[0] == rolls[1] {
+		fmt.Println("Doubles!")
+		rolls = append(rolls, rolls...)
 	}
-	if GetPieces(!b.Turn, b.Tris[e]) >= 2 { // Spot is not open
-		return false
+
+	for len(rolls) > 0 {
+		// Input
+		fmt.Print("Your Move: ")
+		s, e, err := ParseMove(Input())
+		for err != "" {
+			if err == "exit" {
+				return true
+			}
+			if err == "bear" { // Bear off piece
+				if !b.Bear() {
+					break
+				}
+			}
+			fmt.Println(err)
+			fmt.Print("Your Move: ")
+			s, e, err = ParseMove(Input())
+		}
+
+		// Is valid?
+		for i, val := range rolls {
+			if b.IsValid(val, s, e) {
+				b.Tris[s] = SetPieces(b.Turn, b.Tris[s], GetPieces(b.Turn, b.Tris[s])-1)
+				b.Tris[e] = SetPieces(b.Turn, b.Tris[e], GetPieces(b.Turn, b.Tris[e])+1)
+				rolls = append(rolls[:i], rolls[i+1:]...)
+			}
+		}
 	}
-	if GetPieces(!b.Turn, b.Tris[e]) == 1 { // Blot! - Increase in bar
-		b.Tris[e] = SetPieces(!b.Turn, b.Tris[e], 0)
-		b.Bar = SetPieces(!b.Turn, b.Bar, GetPieces(!b.Turn, b.Bar)+1)
-	}
-	return true
+	return false
 }

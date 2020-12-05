@@ -32,3 +32,12 @@ func SetPieces(turn bool, tri Triangle, val int) Triangle {
 	}
 	return tri
 }
+
+// Input reads input
+func Input() string {
+	val, err := reader.ReadString('\n')
+	if err != nil {
+		panic(err)
+	}
+	return val
+}
