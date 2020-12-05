@@ -11,7 +11,8 @@ import (
 var reader *bufio.Reader
 
 func main() {
-	fmt.Println(`Welcome to BackGammon! Type "exit" to exit. To move a piece from 1 to 3, you would input "1 3". To bear off a piece, type "bear". Thank you for playing!`)
+	fmt.Println(`Welcome to BackGammon! Type "exit" to exit. To move a piece from 1 to 3, you would input "1 3". To bear off a piece, type "bear".`)
+	fmt.Println()
 	rand.Seed(time.Now().UnixNano())   // Seed so that it is actually random
 	reader = bufio.NewReader(os.Stdin) // For some reason fmt.Scanln wasnt working so using this
 
@@ -19,7 +20,7 @@ func main() {
 	b.Start()
 	running := true
 	for running {
-		b.Print()
+		fmt.Println()
 		running = b.GameTurn()
 	}
 	fmt.Println("Thanks for playing!")

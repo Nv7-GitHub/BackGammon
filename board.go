@@ -34,6 +34,7 @@ func NewBoard() Board {
 
 // GameTurn has a single turn of the game, returns whether the game is over or not
 func (b *Board) GameTurn() bool {
+	fmt.Println()
 	if b.Turn {
 		fmt.Println("White's Turn")
 	} else {
@@ -47,36 +48,59 @@ func (b *Board) GameTurn() bool {
 		fmt.Println("Doubles!")
 		rolls = append(rolls, rolls...)
 	}
+	fmt.Println()
 
 	for len(rolls) > 0 {
 		// Input
-		fmt.Print("Your Move: ")
-		s, e, err := ParseMove(Input())
-		for err != "" {
-			if err == "exit" {
-				return false
-			}
-			if err == "bear" { // Bear off piece
-				if !b.Bear() {
-					break
-				}
-			}
-			fmt.Println(err)
-			fmt.Print("Your Move: ")
-			s, e, err = ParseMove(Input())
+		b.Print()
+		fmt.Println()
+		s, e, err := b.GetInput()
+		if err {
+			return false
 		}
 
 		// Is valid?
 		for i, val := range rolls {
+			b.Print()
+			fmt.Println()
 			if b.IsValid(val, s, e) {
 				b.Tris[s] = SetPieces(b.Turn, b.Tris[s], GetPieces(b.Turn, b.Tris[s])-1)
 				b.Tris[e] = SetPieces(b.Turn, b.Tris[e], GetPieces(b.Turn, b.Tris[e])+1)
-				rolls = append(rolls[:i], rolls[i+1:]...)
+				if i == len(rolls)-1 {
+					rolls = rolls[:i]
+				} else {
+					rolls = append(rolls[:i], rolls[i+1:]...)
+				}
+				b.Print()
+				fmt.Println()
+			} else {
+				fmt.Println("Invalid Move!")
 			}
 		}
 	}
 	b.Turn = !b.Turn // Next turn
 	return true
+}
+
+// GetInput gets input
+func (b *Board) GetInput() (int, int, bool) {
+	// Input
+	fmt.Print("Your Move: ")
+	s, e, err := ParseMove(Input())
+	for err != "" {
+		if err == "exit" {
+			return 0, 0, true
+		}
+		if err == "bear" { // Bear off piece
+			if !b.Bear() {
+				continue
+			}
+		}
+		fmt.Println(err)
+		fmt.Print("Your Move: ")
+		s, e, err = ParseMove(Input())
+	}
+	return s, e, false
 }
 
 // Start starts the game
