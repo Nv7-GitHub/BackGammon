@@ -77,3 +77,20 @@ func (b *Board) GameTurn() bool {
 	}
 	return false
 }
+
+// Start starts the game
+func (b *Board) Start() {
+	roll := Roll()
+	fmt.Printf("White rolled %d. Black rolled %d\n", roll[0], roll[1])
+	for roll[0] == roll[1] {
+		roll = Roll()
+		fmt.Printf("White rolled %d. Black rolled %d\n", roll[0], roll[1])
+	}
+	if roll[0] > roll[1] {
+		b.Turn = true
+		fmt.Println("White goes first!")
+	} else {
+		b.Turn = false
+		fmt.Println("Black goes first!")
+	}
+}
