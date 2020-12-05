@@ -54,7 +54,7 @@ func (b *Board) GameTurn() bool {
 		s, e, err := ParseMove(Input())
 		for err != "" {
 			if err == "exit" {
-				return true
+				return false
 			}
 			if err == "bear" { // Bear off piece
 				if !b.Bear() {
@@ -75,7 +75,8 @@ func (b *Board) GameTurn() bool {
 			}
 		}
 	}
-	return false
+	b.Turn = !b.Turn // Next turn
+	return true
 }
 
 // Start starts the game

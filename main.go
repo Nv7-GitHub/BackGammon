@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"math/rand"
 	"os"
 	"time"
@@ -14,6 +15,11 @@ func main() {
 	reader = bufio.NewReader(os.Stdin) // For some reason fmt.Scanln wasnt working so using this
 
 	b := NewBoard()
-	b.Print()
-	b.GameTurn()
+	b.Start()
+	running := true
+	for running {
+		b.Print()
+		running = b.GameTurn()
+	}
+	fmt.Println("Thanks for playing!")
 }
