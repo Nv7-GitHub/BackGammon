@@ -28,7 +28,7 @@ func NewBoard() Board {
 	b.Tris[12] = Triangle{Black: 5}
 	b.Tris[16] = Triangle{White: 3}
 	b.Tris[18] = Triangle{White: 5}
-	b.Tris[23] = Triangle{Black: 3}
+	b.Tris[23] = Triangle{Black: 2}
 	return b
 }
 
@@ -50,19 +50,18 @@ func (b *Board) GameTurn() bool {
 	}
 	fmt.Println()
 
+	b.Print()
+	fmt.Println()
 	for len(rolls) > 0 {
 		// Input
-		b.Print()
-		fmt.Println()
 		s, e, err := b.GetInput()
 		if err {
 			return false
 		}
 
+		success := false
 		// Is valid?
 		for i, val := range rolls {
-			b.Print()
-			fmt.Println()
 			if b.IsValid(val, s, e) {
 				b.Tris[s] = SetPieces(b.Turn, b.Tris[s], GetPieces(b.Turn, b.Tris[s])-1)
 				b.Tris[e] = SetPieces(b.Turn, b.Tris[e], GetPieces(b.Turn, b.Tris[e])+1)
@@ -73,9 +72,12 @@ func (b *Board) GameTurn() bool {
 				}
 				b.Print()
 				fmt.Println()
-			} else {
-				fmt.Println("Invalid Move!")
+				success = true
 			}
+		}
+		if !success {
+			fmt.Println("Invalid Move!")
+			fmt.Println()
 		}
 	}
 	b.Turn = !b.Turn // Next turn
